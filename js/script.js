@@ -6,3 +6,7 @@ function ComputerPlay(){
     console.log(listOfComputerChoices[floorRandomResult]);
 }
 
+function PlayerSelection(){
+    let playerInput = prompt("Print your move: [Rock | Paper | Scissors]");
+    return playerInput.toLowerCase();
+}
