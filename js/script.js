@@ -17,30 +17,53 @@ function PlayRound(playerSelection, computerSelection){
     //Display player and computer selections
     document.write(`Player  |   Computer:       ${playerSelection}    |   ${computerSelection}:         Result: `);
 
-    //check if draw
-    if(playerSelection === computerSelection) 
-        document.write("Draw!")
     
+    //check if draw
+    if(playerSelection === computerSelection){
+        document.write("Draw!");
+        return "draw";
+    }
+        
+
     //check if player lose the round and how
-    else if(playerSelection === "rock" && computerSelection === "paper")
+    else if(playerSelection === "rock" && computerSelection === "paper"){
         document.write("Player lose! Paper beats rock");
-    else if(playerSelection === "scissors" && computerSelection === "rock")
+        return "computerWon";
+    }
+        
+    else if(playerSelection === "scissors" && computerSelection === "rock"){
         document.write("Player lose! rock beats scissors");
-    else if(playerSelection === "paper" && computerSelection === "scissors")
+        return "computerWon";
+    }
+        
+    else if(playerSelection === "paper" && computerSelection === "scissors"){
         document.write("Player lose! scissors beats paper");
+        return "computerWon";
+    }
+        
     
     //check if player won the round and how        
-    else if(playerSelection === "rock" && computerSelection === "scissors")
+    else if(playerSelection === "rock" && computerSelection === "scissors"){
         document.write("Player won! rock beats paper");
-    else if(playerSelection === "scissors" && computerSelection === "paper")
+        return "playerWon";
+    }
+        
+    else if(playerSelection === "scissors" && computerSelection === "paper"){
         document.write("Player won! scissors beats paper");
-    else if(playerSelection ==="paper" && computerSelection === "rock")
+        return "playerWon";
+    }
+        
+    else if(playerSelection ==="paper" && computerSelection === "rock"){
         document.write("Player won! paper beats rock");
+        return "playerWon";
+    }
+        
 
     //If none of the above expressions were true, print at the console that an error has occurred
-    else
+    else{
         document.write("an error has occurred");
+        return "gameError";
+    }
  }
 
 
- 
