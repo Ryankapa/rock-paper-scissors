@@ -7,10 +7,12 @@ function ComputerPlay(){
 }
 
 
+
 function PlayerSelection(){
     let playerInput = prompt("Print your move: [Rock | Paper | Scissors]");
     return playerInput.toLowerCase();
 }
+
 
 
 function PlayRound(playerSelection, computerSelection){
@@ -53,7 +55,7 @@ function PlayRound(playerSelection, computerSelection){
         return "playerWon";
     }
         
-    else if(playerSelection ==="paper" && computerSelection === "rock"){
+    else if(playerSelection === "paper" && computerSelection === "rock"){
         document.write("Player won! paper beats rock");
         return "playerWon";
     }
@@ -66,4 +68,17 @@ function PlayRound(playerSelection, computerSelection){
     }
  }
 
+ 
 
+ function Game(){
+    let playerScore = 0, computerScore = 0;
+    let currentRoundResult;
+    for(let i = 0 ; i < 5 ; i++){
+        currentRoundResult = PlayRound(PlayerSelection(), ComputerPlay());
+        if(currentRoundResult === "computerWon")
+            computerScore++;
+        else if(currentRoundResult === "playerWon")
+            playerScore++;
+    }
+    console.log("player score= " + playerScore + " | computer score= " + computerScore);
+}
