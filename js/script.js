@@ -1,3 +1,9 @@
+
+const startButton = document.querySelector("#startButton");
+startButton.addEventListener('click', () => {
+    PlayGame();
+});
+
 function ComputerPlay(){
     let listOfComputerChoices = ["rock", "paper", "scissors"];
     const rand_min = 0, rand_max = 3;
@@ -8,9 +14,8 @@ function ComputerPlay(){
 
 
 
-function PlayerSelection(){
-    let playerInput = prompt("Print your move: [Rock | Paper | Scissors]");
-    return playerInput.toLowerCase();
+function PlayerSelection(move){
+    return move.toLowerCase();
 }
 
 
@@ -68,17 +73,13 @@ function PlayRound(playerSelection, computerSelection){
     }
  }
 
- 
 
- function Game(){
-    let playerScore = 0, computerScore = 0;
-    let currentRoundResult;
-    for(let i = 0 ; i < 5 ; i++){
-        currentRoundResult = PlayRound(PlayerSelection(), ComputerPlay());
-        if(currentRoundResult === "computerWon")
-            computerScore++;
-        else if(currentRoundResult === "playerWon")
-            playerScore++;
-    }
-    console.log("player score= " + playerScore + " | computer score= " + computerScore);
+
+
+//DOM
+function PlayGame(){
+    //Delete start container
+    const startContainer = document.querySelector("#startContainer");
+    startContainer.parentNode.removeChild(startContainer);
 }
+    
