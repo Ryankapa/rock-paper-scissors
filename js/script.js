@@ -1,7 +1,7 @@
 let playerScore = 0, computerScore = 0, draw = 0;
-let winnerName;
-let roundNumber = 1;
+let winnerName, currentRoundWinner, gameOver = false;
 
+const body = document.querySelector("body");
 
 const startButton = document.querySelector("#startButton");
 startButton.addEventListener('click', () => {
@@ -25,55 +25,44 @@ function PlayerSelection(move){
 
 
 function PlayRound(playerSelection, computerSelection){
-    //Display player and computer selections
-
-    
     //check if draw
     if(playerSelection === computerSelection){
-        return "draw";
+        return;
     }
-        
-
-    //check if player lose the round and how
+    
+    //check if player lose the round
     else if(playerSelection === "rock" && computerSelection === "paper"){
-        return "computerWon";
+        return "computerWonRound";
     }
         
     else if(playerSelection === "scissors" && computerSelection === "rock"){
-        return "computerWon";
+        return "computerWonRound";
     }
         
     else if(playerSelection === "paper" && computerSelection === "scissors"){
-        return "computerWon";
+        return "computerWonRound";
     }
         
-    
-    //check if player won the round and how        
+    //check if player won the round     
     else if(playerSelection === "rock" && computerSelection === "scissors"){
-        return "playerWon";
+        return "playerWonRound";
     }
         
     else if(playerSelection === "scissors" && computerSelection === "paper"){
-        return "playerWon";
+        return "playerWonRound";
     }
         
     else if(playerSelection === "paper" && computerSelection === "rock"){
-        return "playerWon";
-    }
-        
-
-    //If none of the above expressions were true, print at the console that an error has occurred
-    else{
-        return "gameError";
+        return "playerWonRound";
     }
 }
 
 
 //update global variables with last round score
-function UpdateScoreboard(winner){
-    if(winnerName === "playerWon")
+function UpdateGameScore(roundWinner){
+    if(roundWinner === "playerWonRound")
         playerScore++;
-    else if(winnerName === "computerWon")
+    else if(roundWinner === "computerWonRound")
         computerScore++;
     else draw++;
 }
@@ -113,14 +102,49 @@ function DisplayScoreboard(){
     
 }
 
+function CheckWinnerName(){
+    if(playerScore >= 5)
+        winnerName = "Player"
+    else
+        winnerName = "Computer"
+}
 
+function CheckGameScore(){
+    if(playerScore >= 5 || computerScore >= 5){
+        gameOver = true;
+        CheckWinnerName();
+    }
+}
+
+function StartGame(pressedButton){
+    currentRoundWinner = PlayRound(PlayerSelection(pressedButton), ComputerPlay());
+    UpdateGameScore(currentRoundWinner);
+    CheckGameScore();
+}
+
+function EndGame(){
+    //Remove game container from the document
+    const gameContainer = document.querySelector("#gameContainer");
+    gameContainer.remove();
+
+    //Remove scoreboard container from the document
+    const scoreboardContainer = document.querySelector("#scoreboardContainer");
+    scoreboardContainer.remove();
+
+    //Add End Game Container
+    const endGameDiv = document.createElement("div");
+    endGameDiv.id = "endGameDiv";
+    
+    body.appendChild(endGameDiv);
+
+    //Create End game paragraph and attach it to endGameDiv
+    const endGamePara = document.createElement("p");
+    endGamePara.textContent = `Game over winner is: ${winnerName}`;
+    endGameDiv.appendChild(endGamePara);
+}
 
 //DOM
 function PlayGame(){
-    
-
-
-    const body = document.querySelector("body");
     
     //Delete start container
     const startContainer = document.querySelector("#startContainer");
@@ -168,10 +192,13 @@ function PlayGame(){
 
     buttons.forEach((button) => {
         button.addEventListener("click", () => {
-            winnerName = PlayRound(PlayerSelection(button.id), ComputerPlay());
-            UpdateScoreboard(winnerName);
-            DisplayScoreboard();
-            roundNumber++;
+            if(gameOver === false){
+                StartGame(button.id);
+                if(gameOver === false)
+                    DisplayScoreboard();
+                else
+                    EndGame();
+            }
         });
     });
 }
